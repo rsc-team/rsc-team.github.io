@@ -16,7 +16,6 @@
            text-shadow-lg/45
            font-sweetsquare
            font-bold
-           hover:underline
            
            "
 
