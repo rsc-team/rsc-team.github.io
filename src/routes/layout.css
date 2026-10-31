@@ -23,7 +23,10 @@ body {
     /* Official RSC colors */
     --color-red: #cc1f36;
     --color-navy: #1e3554;
+    --color-navy-opaque: rgba(30,53,85,0.5);
     --color-gold: #e4ad23;
+    --color-silver: #c8c8c8;
+    --color-bronze: #c4843a;
     --color-beige: #ebd8bc; 
     --color-shadow: #081b37;
 
@@ -31,10 +34,19 @@ body {
     --color-light-navy: #7289a8;
     --color-transparent-white: rgba(133,160,196,0.75);
 
+    /* Division colors */
+    --color-mech-blue: #2aa89e;
+    --color-elec-blue: #95c8ff;
+    --color-business-red: #bb5547;
+    --color-mfg-green: #2aa355;
+    --color-strat-purple: #9f81cc;
+
     /* Drop shadow */
     --drop-shadow-logo: -4px 4px 0px var(--color-shadow);
     --drop-shadow-med: -3px 3px 0px var(--color-shadow);
+    --drop-shadow-med-diff: -3px 3px 0px var(--color-white);
     --drop-shadow-small: -2px 2px 0px var(--color-shadow);
+    --drop-shadow-small-diff: -2px 2px 0px var(--color-white);
     --drop-shadow-smaller: -1px 1px 0px var(--color-shadow);
 
     /* Layout Sizes */
@@ -64,6 +76,10 @@ body {
             transform: translateX(100%);
         }
     }
+}
+
+@utility burger-nav {
+    display:block
 }
 
 @utility solar-clip-rectangle {

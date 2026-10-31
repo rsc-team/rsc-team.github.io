@@ -1,3 +1,7 @@
+<!-----
+Home page
+------->
+
 <script lang="ts">
     import { createContext, createRawSnippet } from "svelte";
 
@@ -24,7 +28,9 @@
       {url:"/collage/collage7.webp",alt:"Hyperion without canopy"}
    ]
 
-   // Work in progress!
+   let rur : HTMLSpanElement;
+   let ruu : HTMLSpanElement;
+
    let contactDiv : HTMLDivElement;
    let innerContactDiv : HTMLDivElement;
    let canvas : HTMLCanvasElement | null;
@@ -158,7 +164,7 @@
    <div class="flex justify-center relative w-full h-150 lg:h-200 drop-shadow-lg">
       <div class="absolute z-3 w-full h-full solar-left-corner"></div>
       <div class="absolute z-2 user-none w-full h-full max-w-content"> </div>
-      <video preload="metadata" class="absolute user-none w-full h-full object-cover brightness-50 overflow-hidden" autoplay muted loop>
+      <video preload="metadata" playsinline class="absolute user-none w-full h-full object-cover brightness-50 overflow-hidden" autoplay muted loop>
          <source src="assets/solarsiteloop.webm" type="video/webm">
       </video>
       <div class="absolute z-4 flex  h-full  w-full  max-w-content align-middle justify-center  top-[50%] translate-y-[-50%] lg:translate-y-[-50%] m-auto">
@@ -177,12 +183,12 @@
       <img src="assets/sun.webp" alt="Rutgers Solar Car Sun" class="absolute -bottom-55  lg:static  xl:static self-center  w-100 h-100">
          <div class="-mt-50 lg:mt-0  w-full text-xl xl:text-4xl sm:text-3xl flex flex-col self-center  justify-center text-left p-10 xl:w-200 sm:w-150  drop-shadow-small lg:drop-shadow-med  text-white font-sweetsquare font-black ">
             <p class="pb-15">
-               <span class="text-red">Rutgers Solar Car</span> is a nonprofit, passionate, student-led organization committed to advancing innovation, sustainability, and collaboration in solar-powered vehicle development
+               <span class="text-red">Rutgers Solar Car</span> is a student-run nonprofit that designs, builds, and races solar-powered vehicles.
             </p>
             <p>
-               Through the design, manufacturing, and testing of solar vehicles, we work on developing competitive, road-legal, fully solar-powered race cars.
+               Our 100+ members from 15+ majors work across engineering, business, and strategy to build cars that are fast, sustainable, and ready to race.
             </p>
-            <a href="/team" class="mt-10 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center w-65">
+            <a href="team" class="mt-10 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center w-65">
                <button class=" hover:text-navy text-white  hover:bg-white cursor-pointer p-3 w-full font-black  bg-red text-4xl solar-clip-rectangle">
                   <p class="w-full h-full transition-all  group-hover:drop-shadow-med">Learn More</p>
                </button>
@@ -193,7 +199,7 @@
 
    <!-- Sponsors Preview -->
    <div class="flex flex-col overflow-hidden h-50 bg-navy place-content-center">
-      <p class="font-black text-gold text-center pb-5 text-2xl drop-shadow-med">Backed by trusted sponsors</p>
+      <p class="font-black text-gold text-center pb-5 text-2xl drop-shadow-med">Supported by generous sponsors</p>
       <div class="self-center relative overflow-hidden whitespace-nowrap  max-w-content [mask-image:_linear-gradient(to_right,_transparent_0,_white_128px,white_calc(100%-128px),_transparent_100%)]">
          {#each {length:2} as _, i}
             <div class="inline-block animate-scrolling w-max">
@@ -211,10 +217,10 @@
       <div class="flex items-center align-middle flex-nowrap  flex-col-reverse lg:flex-row xl:pr-25 h-full w-full xl:max-w-content justify-center">
          <div class="-mt-50 lg:mt-0 w-full text-xl xl:text-4xl sm:text-3xl flex flex-col self-center justify-center text-left p-10 xl:w-200 sm:w-150  drop-shadow-small lg:drop-shadow-med  text-white font-sweetsquare font-black ">
             <p class="pb-15">
-               Our team provides students with a hands-on, inclusive learning environment where they can exercise creative freedom while pushing the boundaries of automotive design and technology.
+               Students take ownership of real projects, from designing components to managing budgets to planning race strategy. 
             </p>
             <p>
-               We equip students with real-world engineering, teamwork, and leadership experience, fostering growth in innovation, supply chain, finance, and marketing, ensuring all disciplines contribute meaningfully.
+               Members build technical and leadership skills, collaborate across disciplines, and see their work race on the track, graduating with a wealth of hands-on experience.
             </p>
             <a 
             target="_blank"
@@ -250,23 +256,23 @@
          </p>
          <div class="lg:text-3xl ml-10 mr-10 w-80 sm:w-100 lg:w-200 self-center">
             <p class="">
-               Since 1987, the American Solar Challenge has brought together college teams for a race that tests strategy, endurance, and cutting-edge engineering. Teams must design and build solar-powered vehicles, relying solely on solar cells embedded in the car. This multi-stage endurance race spans over 1,700 miles, covering several days in a Tour de France-style format.
+               For over 35 years, university teams have competed to <span class="text-red">design, build, and race</span> vehicles powered by the sun. Cars rely exclusively on energy generated through solar arrays to complete races thousands of miles in length. To win, teams must balance <span class="text-red">speed, efficiency, and reliability</span> over multiple days of racing.
             </p>
             <div class="scale-60 -m-10 sm:m-0 sm:scale-80 lg:scale-100 flex flex-row justify-center drop-shadow-none ">
                <div class="flex flex-col w-50 h-10 self-center mt-3.5">
                   <div class="w-full h-5 mb-2 bg-red drop-shadow-logo"></div>
-                  <div class="w-full h-5 bg-red drop-shadow-logo"></div>
+                  <div class="w-full h-5 bg-white drop-shadow-logo"></div>
                </div>
                <p class="text-red text-9xl mt-6  mb-10 select-none drop-shadow-logo">
                   66
                </p>
                <div class="flex flex-col w-50 h-10 self-center mt-3.5">
                   <div class="w-full h-5 mb-2 bg-red drop-shadow-logo"></div>
-                  <div class="w-full h-5 bg-red drop-shadow-logo"></div>
+                  <div class="w-full h-5 bg-white drop-shadow-logo"></div>
                </div>
             </div>
             <p class="">
-               However, the competition embodies a greater objective than engineering prowess; it represents the awesome power and applicability of solar energy. Educating people about sustainable energy is revolutionizing our daily lives, and how it will be integrated in the years to come with cars and other modes of transport is the cornerstone of our team's mission.
+               Events range from closed-track endurance races like Formula Sun Grand Prix to multi-day road races like the American Solar Challenge. Beyond engineering, solar racing showcases the capabilities of <span class="text-red">clean, sustainable energy</span> and prepares the next generation of engineers to bring it into everyday transportation.
             </p>
          </div>
 
@@ -296,8 +302,8 @@
    <!-- Where do we compete? -->
    <div class="absolute w-full overflow-hidden h-250 bg-beige flex-col flex">
       <div class="absolute w-full h-full bg-no-repeat bg-position-[50%_50%]  scale-150 bg-beige bg-blend-overlay  bg-[url(/assets/brainerd.svg)]"></div>
-      <p class="w-full lg:mb-20 text-4xl lg:text-6xl justify-center text-center p-10  drop-shadow-small lg:drop-shadow-med text-white font-sweetsquare font-black ">
-         <span class="text-red">Where do we compete?</span>
+      <p class="w-full lg:mb-20 text-4xl lg:text-6xl justify-center text-center p-10  drop-shadow-small-diff lg:drop-shadow-med-diff text-white font-sweetsquare font-black ">
+         <span class="text-navy">Where do we compete?</span>
       </p>
       <div class="" style="bottom:30%;width:120%">
         <div class="bg-gray-900 overflow-hidden relative" style="height:18px">
@@ -306,27 +312,27 @@
         </div>
         <div class="animate-driving-faster sm:animate-driving-normal relative bottom-11 z-2"><img src="assets/arctanarttransflip.webp" alt="Solar Car" style="width:80px;height:auto"></div>
       </div>
-      <div bind:this={innerContactDiv} class="-mt-15 sm:-mt-5 p-10 self-center w-full flex flex-col sm:flex-row justify-center max-w-content">
+      <div bind:this={innerContactDiv} class="-mt-15 sm:-mt-5 p-10 self-center w-100 sm:w-320 flex flex-col sm:flex-row justify-center max-w-content">
          <div class="w-full flex flex-col">
-            <p class="self-center text-2xl sm:text-4xl font-black text-red drop-shadow-small">
-               Rutgers Solar Car competes at Formula Sun Gran Prix (FSGP), an annual event to compete for the most amount of laps in a solar-powered vehicle.
+            <p class="self-center text-2xl sm:text-4xl font-black text-navy drop-shadow-small-diff">
+               Every summer, we race the Formula Sun Grand Prix, a 3-day track endurance event against 35+ teams. <br><br>Our next goal: the 2028 American Solar Challenge, a 1,700+ mile cross-country race along public roads.
             </p>
             <a target="_blank"
             rel="noopener noreferrer"
-            href="https://www.americansolarchallenge.org/formula-sun-grand-prix/" class="mt-10 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center w-65">
+            href="https://www.americansolarchallenge.org/formula-sun-grand-prix/" class="relative z-5 mt-10 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center w-65">
                <button class=" hover:text-navy text-white  hover:bg-white cursor-pointer p-3 w-full font-black  bg-red text-4xl solar-clip-rectangle">
                   <p class="w-full h-full transition-all  group-hover:drop-shadow-med">FSGP Info</p>
                </button>
             </a> 
          </div>
-         <div class="relative top-15 sm:top-0 z-0 sm:z-1 self-center min-w-75 transition-all ease-frame hover:rotate-6  rotate-3 drop-shadow-1xl w-75 h-75 mb-5 bg-white flex p-3">
+         <div class="relative ml-10 top-15 sm:top-0 z-0 sm:z-1 self-center min-w-75 transition-all ease-frame hover:rotate-6  rotate-3 drop-shadow-1xl w-75 h-75 mb-5 bg-white flex p-3">
             <img class="min-w-full w-full h-60" src="collage/collage5.webp" alt="Hyperion">
          </div>
       </div>
    </div>
 
    <!-- Contact -->
-   <div bind:this={contactDiv} class="overflow-hidden flex justify-center drop-shadow-2xl mt-140 solar-gradient sphere-mask h-150 sm:h-200">
+   <div bind:this={contactDiv} class="overflow-hidden flex justify-center drop-shadow-2xl mt-160 solar-gradient sphere-mask h-150 sm:h-200">
       <!-- Solar panels -->
       <canvas bind:this={canvas} class="opacity-25 absolute h-full w-full canvas-rendering [mask-image:_linear-gradient(to_right,_transparent_0,_white_128px,white_calc(100%-128px),_transparent_100%)]"></canvas>
       <!-- Content -->
@@ -334,8 +340,8 @@
          <p class="w-full mb-0 sm;mb-5 text-5xl lg:text-7xl justify-center text-center p-10">
             Contact Us
          </p>
-         <p class="text-center text-2xl sm:text-4xl max-w-200 m-auto">
-            We're happy to answer any questions you may have about the team.
+         <p class="text-center text-2xl sm:text-4xl max-w-300 m-auto">
+            Interested in supporting our team? Send us a message and we'd be happy to answer any questions!
          </p>
          <div class="flex justify-center mt-10">
             <!-- LinkedIn -->
@@ -365,14 +371,28 @@
    </div>
 
    <!-- Join Team -->
-    <div class="overflow-hidden h-50  bg-navy place-content-center flex drop-shadow-lg justify-center">
-      <div class="text-xl sm:text-2xl lg:text-4xl flex flex-col sm:flex-row max-w-content self-center font-black p-5 lg:p-20  text-white text-left drop-shadow-med">
-         <p class="text-gold text-center sm:ml-5 sm:text-left">Are you a student at Rutgers University? Help us design, build, and race the next generation of solar-powered vehicles!</p>
-         <a href="/join" class="mt-2 mb-8 sm:mt-0 sm:mb-0 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center ml-3  min-w-65">
+    <div class=" max-w-300 flex flex-col m-auto overflow-hidden h-80 sm:h-75  bg-navy">
+      <div class="m-2 text-xl sm:text-2xl lg:text-4xl flex flex-col font-black pt-10  text-white text-left drop-shadow-med">
+         <p class="text-gold text-center pb-5">
+             <span class="group" on:mouseenter={() => {rur.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;&nbsp;U&nbsp"}}
+             on:mouseout={() => {rur.innerText="Are you"}}>
+                <span bind:this={rur} class="group group-hover:text-red">
+                   Are you
+                 </span>
+            </span>
+            a Rutgers Student? Whatever your major or level of experience, there’s a place for you at RSC. Help us design, build, and race our next solar-powered car!</p>
+         <div class="flex flex-row justify-center scale-60 sm:scale-100">
+            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/ebJAgYCWuT" class="mt-2 mb-8 sm:mt-0 sm:mb-0 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center min-w-65">
                <button class=" hover:text-navy text-white  hover:bg-white cursor-pointer p-3 w-full font-black  bg-red text-4xl solar-clip-rectangle">
-                  <p class="w-full h-full transition-all  group-hover:drop-shadow-med">Next Steps</p>
+                  <p class="w-full h-full transition-all  group-hover:drop-shadow-med">Discord</p>
                </button>
             </a> 
+            <a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/rusolarcar" class="mt-2 mb-8 sm:mt-0 sm:mb-0 h-10 transition-all not-hover:drop-shadow-logo xl:order-3 self-center ml-8  min-w-65">
+               <button class=" hover:text-navy text-white  hover:bg-white cursor-pointer p-3 w-full font-black  bg-red text-4xl solar-clip-rectangle">
+                  <p class="w-full h-full transition-all  group-hover:drop-shadow-med">Instagram</p>
+               </button>
+            </a> 
+         </div>
       </div>
    </div>
 
