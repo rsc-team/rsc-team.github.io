@@ -3,20 +3,45 @@ Home page
 ------->
 
 <script lang="ts">
-    import { createContext, createRawSnippet } from "svelte";
+    import { createContext, createRawSnippet, onMount } from "svelte";
+    import { invalidateAll  } from "$app/navigation";
+    import { invalid } from "@sveltejs/kit";
+
+    onMount(() => {
+      const pageShow = (e : any) => {
+         invalidateAll();
+         if (e.persisted) {
+            invalidateAll();
+         }
+      }
+
+      window.addEventListener("pageshow",pageShow)
+      return () => window.removeEventListener("pageshow",pageShow)
+
+      
+    });
 
    let sponsors = [
-      {url:"/sponsors/ansys.svg",alt:"Ansys"},
-      {url:"/sponsors/generalsealants.svg",alt:"General Sealants"},
-      {url:"/sponsors/tripowerdesign.svg",alt:"Tri-Power Design"},
-      {url:"/sponsors/sunpower.svg",alt:"Sunpower"},
-      {url:"/sponsors/mrgworkshop.svg",alt:"Mr. G's Workshop"},
-      {url:"/sponsors/panasonic.svg",alt:"Panasonic"},
-      {url:"/sponsors/badgermedalmachinefabrication.svg",alt:"Badger Medal & Machine Fabrication"},
-      {url:"/sponsors/polyurethanemachinerycorperation.svg",alt:"Polyurethane Machinery Corperation"},
-      {url:"/sponsors/vikingyachts.svg",alt:"Viking Yachts"},
-      {url:"/sponsors/komo.svg",alt:"Komo"},
-      {url:"/sponsors/rutgerssoe.svg",alt:"Rutgers School of Engineering"}
+      {url:"/sponsors/sponsor-bw-transparent/airtech.webp",alt:"Airtech"},
+      {url:"/sponsors/sponsor-bw-transparent/amolen.webp",alt:"Amolen"},
+      {url:"/sponsors/sponsor-bw-transparent/badger.webp",alt:"Badger"},
+      {url:"/sponsors/sponsor-bw-transparent/bayareacircuits.webp",alt:"Bay Area Circuits"},
+      {url:"/sponsors/sponsor-bw-transparent/endurans.webp",alt:"Endurans"},
+      {url:"/sponsors/sponsor-bw-transparent/fsae.webp",alt:"Fsaeparts"},
+      {url:"/sponsors/sponsor-bw-transparent/gs.webp",alt:"General Sealants"},
+      {url:"/sponsors/sponsor-bw-transparent/komo.webp",alt:"KOMO"},
+      {url:"/sponsors/sponsor-bw-transparent/lockheedmartin.webp",alt:"Lockheed Martin"},
+      {url:"/sponsors/sponsor-bw-transparent/mrgsworkshop.webp",alt:"Mr. G's Workshop"},
+      {url:"/sponsors/sponsor-bw-transparent/panasonic.webp",alt:"Panasonic"},
+      {url:"/sponsors/sponsor-bw-transparent/pcbway.webp",alt:"PCBWay"},
+      {url:"/sponsors/sponsor-bw-transparent/polyurethane.webp",alt:"Polyurthane"},
+      {url:"/sponsors/sponsor-bw-transparent/rutgersooca.webp",alt:"Rutgers Office of Climate Action"},
+      {url:"/sponsors/sponsor-bw-transparent/rutgerssoe.webp",alt:"Rutgers School of Engineering"},
+      {url:"/sponsors/sponsor-bw-transparent/saintgobain.webp",alt:"Saint Gobain"},
+      {url:"/sponsors/sponsor-bw-transparent/sunpower.webp",alt:"Sunpower"},
+      {url:"/sponsors/sponsor-bw-transparent/teamgantt.webp",alt:"Teamgantt"},
+      {url:"/sponsors/sponsor-bw-transparent/tripower.webp",alt:"Tripower"},
+      {url:"/sponsors/sponsor-bw-transparent/vikingyachts.webp",alt:"Viking Yachts"},
    ]
 
    let collage = [
@@ -37,7 +62,7 @@ Home page
    let ctx : CanvasRenderingContext2D | null;
 
    const canvasResScale = 1; // canvas resolution (1 - computed layout of contact div, 2 - twice as large, 0.5 - half as large)
-   const cellSize = 100;
+   let cellSize = 100;
    const cellPadding = 5;
    const cellInset = 15;
    const cellOuterColor = "rgba(30,53,84,0.4)";
@@ -52,9 +77,14 @@ Home page
    let panels : number[][] = [];
 
    let currentStarter = 0;
-   let startingCorners = [0, 0.2, 0.4, 0.6, 0.8, 1];
+   let scPC = [0, 0.2, 0.4, 0.6, 0.8, 1];
+   let scMB = [0, 1, 1.5, 2, 3, 4];
+
+   let startingCorners = scPC
 
    function draw(delta : number) {
+      cellSize = (contactDiv.offsetWidth > 400) ? 100 : 50;
+      startingCorners = (contactDiv.offsetWidth > 400) ? scPC : scMB;
       if (!canvas || !ctx) { return }
 
       canvas.height = contactDiv.offsetHeight * canvasResScale;
@@ -66,14 +96,15 @@ Home page
       ctx.clearRect(0, 0, 300, 300); // clear canvas
 
       ctx.rotate((45 * Math.PI) / 180);
-      ctx.translate(10,-800)
+
+      (contactDiv.offsetWidth > 400) ? ctx.translate(80, -500): ctx.translate(-20,0);
 
       // draw panels
       for (let i = 0; i < panels.length; ++i) {
          let curr = panels[i];
          panels[i] = [curr[0], curr[1], curr[2], curr[3]-incPerFrame,curr[4] + 0.05,curr[5]];
          makeSolarPanel(curr[0], curr[1], panels[i][2], panels[i][3],panels[i][4]);
-         if (curr[3] <= contactDiv.offsetHeight*0.35 && curr[5] == 0) {
+         if (curr[3] <= contactDiv.offsetHeight*0.4 && curr[5] == 0) {
             panels[i][5] = 1;
             requestRandomPanel();
          }
@@ -146,7 +177,7 @@ Home page
       if (canvas) {
          ctx = canvas.getContext("2d");
          for (let i = 0; i < startingCorners.length; ++i) { 
-            requestRandomPanel(0,contactDiv.offsetHeight); 
+            requestRandomPanel(0,contactDiv.offsetHeight/1.5); 
          }
          window.requestAnimationFrame(draw);
       } else {
@@ -199,12 +230,12 @@ Home page
 
    <!-- Sponsors Preview -->
    <div class="flex flex-col overflow-hidden h-50 bg-navy place-content-center">
-      <p class="font-black text-gold text-center pb-5 text-2xl drop-shadow-med">Supported by generous sponsors</p>
+      <p class="font-black text-gold text-center pb-5 text-xl sm:text-2xl drop-shadow-med">Supported by generous sponsors</p>
       <div class="self-center relative overflow-hidden whitespace-nowrap  max-w-content [mask-image:_linear-gradient(to_right,_transparent_0,_white_128px,white_calc(100%-128px),_transparent_100%)]">
          {#each {length:2} as _, i}
             <div class="inline-block animate-scrolling w-max">
                {#each sponsors as sponsor}
-                  <img class="mx-4 inline h-25" src={sponsor.url} alt={sponsor.alt}>
+                  <img class="mx-4 inline h-30" src={sponsor.url} alt={sponsor.alt}>
                {/each}
             </div>
          {/each}
@@ -212,10 +243,10 @@ Home page
    </div>
 
    <!-- Sponsor Blurb -->
-    <div class="border-none drop-shadow-lg items-center overflow-hidden w-full h-200 xl:h-200  bg-gray-600 bg-[url(/assets/spacemain.webp)]  bg-blend-multiply bg-auto  bg-position-[50%_50%] bg-no-repeat lg:bg-position-[20%_75%] xl:bg-cover xl:bg-position-[20%_95%] 2xl:bg-position[20%_10%]  flex flex-col justify-center">
+    <div class="border-none drop-shadow-lg items-center overflow-hidden w-full h-170 sm:h-200 xl:h-200  bg-gray-600 bg-[url(/assets/spacemain.webp)]  bg-blend-multiply bg-auto  bg-position-[50%_50%] bg-no-repeat lg:bg-position-[20%_75%] xl:bg-cover xl:bg-position-[20%_95%] 2xl:bg-position[20%_10%]  flex flex-col justify-center">
     <div class="absolute z-0 w-full h-full solar-left-corner"></div>
       <div class="flex items-center align-middle flex-nowrap  flex-col-reverse lg:flex-row xl:pr-25 h-full w-full xl:max-w-content justify-center">
-         <div class="-mt-50 lg:mt-0 w-full text-xl xl:text-4xl sm:text-3xl flex flex-col self-center justify-center text-left p-10 xl:w-200 sm:w-150  drop-shadow-small lg:drop-shadow-med  text-white font-sweetsquare font-black ">
+         <div class=" lg:mt-0 w-full text-xl xl:text-4xl sm:text-3xl flex flex-col self-center justify-center text-left p-10 xl:w-200 sm:w-150  drop-shadow-small lg:drop-shadow-med  text-white font-sweetsquare font-black ">
             <p class="pb-15">
                Students take ownership of real projects, from designing components to managing budgets to planning race strategy. 
             </p>
@@ -231,7 +262,7 @@ Home page
                </button>
             </a> 
          </div>
-         <img src="assets/solarlogo.svg" alt="Rutgers Solar Car Sun" class="absolute -bottom-45  lg:static  xl:static self-center  w-100 h-100">
+         <img src="assets/solarlogo.svg" alt="Rutgers Solar Car Sun" class="hidden sm:inline absolute -bottom-45  lg:static  xl:static self-center  w-100 h-100">
       </div>
    </div>
 
@@ -302,7 +333,7 @@ Home page
    <!-- Where do we compete? -->
    <div class="absolute w-full overflow-hidden h-250 bg-beige flex-col flex">
       <div class="absolute w-full h-full bg-no-repeat bg-position-[50%_50%]  scale-150 bg-beige bg-blend-overlay  bg-[url(/assets/brainerd.svg)]"></div>
-      <p class="w-full lg:mb-20 text-4xl lg:text-6xl justify-center text-center p-10  drop-shadow-small-diff lg:drop-shadow-med-diff text-white font-sweetsquare font-black ">
+      <p class="w-full lg:mb-20 text-4xl lg:text-6xl justify-center text-center p-10 drop-shadow-2xl  text-white font-sweetsquare font-black ">
          <span class="text-navy">Where do we compete?</span>
       </p>
       <div class="" style="bottom:30%;width:120%">
@@ -314,7 +345,7 @@ Home page
       </div>
       <div bind:this={innerContactDiv} class="-mt-15 sm:-mt-5 p-10 self-center w-100 sm:w-320 flex flex-col sm:flex-row justify-center max-w-content">
          <div class="w-full flex flex-col">
-            <p class="self-center text-2xl sm:text-4xl font-black text-navy drop-shadow-small-diff">
+            <p class="self-center text-2xl sm:text-4xl font-black text-navy drop-shadow-2xl">
                Every summer, we race the Formula Sun Grand Prix, a 3-day track endurance event against 35+ teams. <br><br>Our next goal: the 2028 American Solar Challenge, a 1,700+ mile cross-country race along public roads.
             </p>
             <a target="_blank"
@@ -325,7 +356,7 @@ Home page
                </button>
             </a> 
          </div>
-         <div class="relative ml-10 top-15 sm:top-0 z-0 sm:z-1 self-center min-w-75 transition-all ease-frame hover:rotate-6  rotate-3 drop-shadow-1xl w-75 h-75 mb-5 bg-white flex p-3">
+         <div class="hidden sm:flex relative ml-10 top-15 sm:top-0 z-0 sm:z-1 self-center min-w-75 transition-all ease-frame hover:rotate-6  rotate-3 drop-shadow-1xl w-75 h-75 mb-5 bg-white p-3">
             <img class="min-w-full w-full h-60" src="collage/collage5.webp" alt="Hyperion">
          </div>
       </div>
